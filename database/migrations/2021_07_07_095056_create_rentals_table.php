@@ -20,6 +20,7 @@ class CreateRentalsTable extends Migration
             $table->string('dropoff_date');
             $table->string('with_driver');
             $table->string('status');
+            $table->string('rental_status')->default('on-process');
             $table->string('total_payment');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('payment_type_id')->constrained()->onDelete('cascade');

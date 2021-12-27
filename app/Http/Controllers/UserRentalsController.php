@@ -5,32 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Car;
 use App\Models\Payment;
 use App\Models\Rental;
-use App\Models\User;
 use Illuminate\Http\Request;
 
-class ClientController extends Controller
+class UserRentalsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:admin');
-    }
-
-    public function index(){
-        return response()->json(User::with(['info'])->paginate(10));
-    }
-
-    public function search(){
-        $user = User::whereHas('info', function ($query){
-            $query->where('first_name', 'like', '%'.request()->get('search').'%')
-            ->orWhere('middle_name', 'like', '%'.request()->get('search').'%')
-            ->orWhere('last_name', 'like', '%'.request()->get('search').'%');
-        })->with('info')->paginate(10);
-        return response()->json($user);
-    }
-
-    public function delete($id){
-        User::destroy($id);
-        return response()->json(['msg' => 'Client deleted successfully!'], 200);
+        $this->middleware('auth:api');
     }
 
     public function rentalFinished(Request $request, $id){
@@ -40,7 +21,8 @@ class ClientController extends Controller
     }
 
     public function rentals(){
-        return response()->json(Rental::with(['car', 'car.brand', 'payment', 'car.transmission', 'user', 'user.info'])->paginate(10));
+        $rental = Rental::whereRelation('car.owner', 'user_id', auth()->user()->id)->with(['car', 'car.brand', 'payment', 'car.transmission', 'user', 'user.info'])->paginate(10);
+        return response()->json($rental);
     }
 
     public function searchRental(){
@@ -74,7 +56,4 @@ class ClientController extends Controller
         return response()->json(['msg' => 'Payment successful'], 200);
     }
 
-    public function payments(){
-        return response()->json(Payment::with(['rental', 'rental.user', 'rental.user.info'])->get());
-    }
 }

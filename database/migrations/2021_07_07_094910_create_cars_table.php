@@ -17,7 +17,9 @@ class CreateCarsTable extends Migration
             $table->id();
             $table->foreignId('car_brand_id')->constrained()->onDelete('cascade');
             $table->string('model');
+            $table->string('status')->default('available');
             $table->text('description');
+            $table->foreignId('branch_id')->constrained()->onDelete('cascade');
             $table->foreignId('transmission_type_id')->constrained()->onDelete('cascade');
             $table->string('image');
             $table->string('year');

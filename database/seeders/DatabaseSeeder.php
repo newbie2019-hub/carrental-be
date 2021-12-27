@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             TransmissionTypeSeeder::class,
             BrandSeeder::class,
             PaymentTypeSeeder::class,
+            BranchSedeer::class
         ]);
     }
 }

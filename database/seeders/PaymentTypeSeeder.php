@@ -15,6 +15,7 @@ class PaymentTypeSeeder extends Seeder
     public function run()
     {
         $data = [
+            // ['type' => 'Paypal'],
             ['type' => 'Credit Card'],
             ['type' => 'Pay at branch'],
         ];

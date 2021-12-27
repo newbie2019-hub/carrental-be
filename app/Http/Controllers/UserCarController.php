@@ -3,23 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Car;
+use App\Models\CarOwner;
 use App\Models\RentalRate;
 use Illuminate\Http\Request;
 
-class CarController extends Controller
+class UserCarController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:admin', ['except' => ['getCars']]);
+        $this->middleware('auth:api', ['except' => ['getCars']]);
     }
 
     public function index(){
-        $car = Car::with(['brand', 'transmission', 'rate', 'branch', 'owner', 'owner.info'])->paginate(10);
+        $car = Car::whereRelation('owner', 'user_id', auth()->user()->id)->with(['brand', 'transmission', 'rate', 'branch'])->paginate(10);
         return response()->json($car, 200);
     }
 
     public function getCars(){
-        $car = Car::where('status', 'available')->with(['brand', 'transmission', 'rate', 'branch'])->get();
+        $car = Car::where('status', 'available')-with(['brand', 'transmission', 'rate', 'branch'])->get();
         return response()->json($car, 200);
     }
 
@@ -57,7 +58,7 @@ class CarController extends Controller
             'image' => $request->image,
             'year' => $request->year,
             'seats' => $request->seats,
-            'branch_id' => $request->branch_id
+            'branch_id' => $request->branch_id,
         ];
 
         $car = Car::create($data);
@@ -69,6 +70,11 @@ class CarController extends Controller
             'per_week' => $request->per_week,
             'per_month' => $request->per_month,
         ];
+
+        CarOwner::create([
+            'user_id' => auth()->user()->id,
+            'car_id' => $car->id
+        ]);
 
         RentalRate::create($ratedata);
 

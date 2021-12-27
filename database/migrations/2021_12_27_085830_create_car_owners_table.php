@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRentalRatesTable extends Migration
+class CreateCarOwnersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateRentalRatesTable extends Migration
      */
     public function up()
     {
-        Schema::create('rental_rates', function (Blueprint $table) {
+        Schema::create('car_owners', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('car_id')->constrained()->onDelete('cascade');
-            $table->string('per_day');
-            $table->string('per_week');
-            $table->string('per_month');
-            $table->string('with_driver');
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ class CreateRentalRatesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rental_rates');
+        Schema::dropIfExists('car_owners');
     }
 }
