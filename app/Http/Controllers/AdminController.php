@@ -32,12 +32,23 @@ class AdminController extends Controller
 
     public function update(Request $request, $id) {
         try {
-            $data = [
-                'first_name' => $request->first_name,
-                'middle_name' => $request->middle_name,
-                'last_name' => $request->last_name,
-                'gender' => $request->gender,
-            ];
+            if($request->img){
+                $data = [
+                    'image' => $request->img,
+                    'first_name' => $request->first_name,
+                    'middle_name' => $request->middle_name,
+                    'last_name' => $request->last_name,
+                    'gender' => $request->gender,
+                ];
+            }
+            else {
+                $data = [
+                    'first_name' => $request->first_name,
+                    'middle_name' => $request->middle_name,
+                    'last_name' => $request->last_name,
+                    'gender' => $request->gender,
+                ];
+            }
 
             $user = [
                 'email' => $request->email,
