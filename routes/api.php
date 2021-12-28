@@ -92,9 +92,12 @@ Route::group(['middleware' => 'api', 'prefix' => 'user'], function () {
 
     // Rentals
     Route::put('rentals/{id}', [UserRentalsController::class, 'rentalFinished']);
-    Route::get('rentals', [UserRentalsController::class, 'rentals']);
+    Route::get('car/rentals', [UserRentalsController::class, 'rentals']);
     Route::put('update/rental/{id}', [UserRentalsController::class, 'updateRental']);
-    Route::post('search/rentals', [UserRentalsController::class, 'searchRental']);
+    Route::post('search/car/rentals', [UserRentalsController::class, 'searchRental']);
+
+    Route::get('payments', [UserRentalsController::class, 'payments']);
+
 });
 
 Route::post('send/inquiry', [InquiryController::class, 'store']);

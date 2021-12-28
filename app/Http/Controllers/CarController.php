@@ -19,7 +19,7 @@ class CarController extends Controller
     }
 
     public function getCars(){
-        $car = Car::where('status', 'available')->with(['brand', 'transmission', 'rate', 'branch'])->get();
+        $car = Car::where('status', 'available')->with(['brand', 'owner', 'owner.info', 'transmission', 'rate', 'branch'])->get();
         return response()->json($car, 200);
     }
 

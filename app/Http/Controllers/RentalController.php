@@ -20,18 +20,19 @@ class RentalController extends Controller
         $response = '';
         if($request->payment_type == 1){
             try {
-                $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
-                // $token = $stripe->tokens->create([
-                //     'card' => [
-                //         'number' => $request->number,
-                //         'exp_month' => $request->exp_month,
-                //         'exp_year' => $request->exp_year,
-                //         'cvc' => $request->cvc,
-                //     ],
-                // ]);
+                $stripe = new \Stripe\StripeClient('sk_test_51KAQ3ADoJANsLvgsci2nG46EFVHLQbFxS6qfZ8UEpGl1ffYIVcDBsHOOKu7SVI9MBTCjBm43dSu8oKhQSSsK1uaF00ivv1r0U3');
+
+                $token = $stripe->tokens->create([
+                    'card' => [
+                        'number' => $request->number,
+                        'exp_month' => $request->exp_month,
+                        'exp_year' => $request->exp_year,
+                        'cvc' => $request->cvc,
+                    ],
+                ]);
         
-                Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-                $response = Stripe\Charge::create ([
+                $stripecharge = new \Stripe\StripeClient('sk_test_51KAQ3ADoJANsLvgsci2nG46EFVHLQbFxS6qfZ8UEpGl1ffYIVcDBsHOOKu7SVI9MBTCjBm43dSu8oKhQSSsK1uaF00ivv1r0U3');
+                $stripecharge->charges->create([
                         "amount" => $request->payment_fee * 100,
                         "currency" => "php",
                         "source" => $token,

@@ -24,13 +24,26 @@ class UserController extends Controller
             'gender' => 'required',
         ]);
 
-        $userinfo = [
-            'first_name' => $request->first_name,
-            'middle_name' => $request->middle_name,
-            'last_name' => $request->last_name,
-            'gender' => $request->gender,
-            'contact_number' => $request->contact_number,
-        ];
+        if($request->img){
+            $userinfo = [
+                'image' => $request->img,
+                'first_name' => $request->first_name,
+                'middle_name' => $request->middle_name,
+                'last_name' => $request->last_name,
+                'gender' => $request->gender,
+                'contact_number' => $request->contact_number,
+            ];
+        }
+        else 
+        {
+            $userinfo = [
+                'first_name' => $request->first_name,
+                'middle_name' => $request->middle_name,
+                'last_name' => $request->last_name,
+                'gender' => $request->gender,
+                'contact_number' => $request->contact_number,
+            ];
+        }
 
         UserInfo::where('id', $id)->update($userinfo);
         
@@ -58,13 +71,26 @@ class UserController extends Controller
             'email' => 'unique:users,email'
         ]);
 
-        $userinfo = [
-            'first_name' => $request->first_name,
-            'middle_name' => $request->middle_name,
-            'last_name' => $request->last_name,
-            'gender' => $request->gender,
-            'contact_number' => $request->contact_number,
-        ];
+        if($request->img){
+            $userinfo = [
+                'image' => $request->img,
+                'first_name' => $request->first_name,
+                'middle_name' => $request->middle_name,
+                'last_name' => $request->last_name,
+                'gender' => $request->gender,
+                'contact_number' => $request->contact_number,
+            ];
+        }
+        else 
+        {
+            $userinfo = [
+                'first_name' => $request->first_name,
+                'middle_name' => $request->middle_name,
+                'last_name' => $request->last_name,
+                'gender' => $request->gender,
+                'contact_number' => $request->contact_number,
+            ];
+        }
 
         $user_created_info = UserInfo::create($userinfo);
 

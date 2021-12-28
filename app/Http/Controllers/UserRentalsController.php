@@ -21,7 +21,7 @@ class UserRentalsController extends Controller
     }
 
     public function rentals(){
-        $rental = Rental::whereRelation('car.owner', 'user_id', auth()->user()->id)->with(['car', 'car.brand', 'payment', 'car.transmission', 'user', 'user.info'])->paginate(10);
+        $rental = Rental::whereRelation('car.owner', 'user_info_id', auth()->user()->id)->with(['car', 'car.brand', 'payment', 'car.transmission', 'user', 'user.info'])->paginate(10);
         return response()->json($rental);
     }
 
@@ -54,6 +54,11 @@ class UserRentalsController extends Controller
             $rental->update(['status' => 'Paid']);
         }
         return response()->json(['msg' => 'Payment successful'], 200);
+    }
+
+    public function payments(){
+        $payments = Payment::whereRelation('rental.car.owner', 'user_info_id', auth()->user()->id)->with(['rental', 'rental.car.owner', 'rental.user', 'rental.user.info'])->get();
+        return response()->json($payments);
     }
 
 }
